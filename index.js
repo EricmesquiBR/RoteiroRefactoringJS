@@ -1,4 +1,5 @@
 const { readFileSync } = require("fs")
+const { get } = require("http")
 
 function gerarFaturaStr(fatura, pecas) {
     function calcularTotalApresentacao(apre, peca) {
@@ -24,6 +25,10 @@ function gerarFaturaStr(fatura, pecas) {
         return total
     }
 
+    function getPeca(apresentacao) {
+        return pecas[apresentacao.id]
+    }
+
     let totalFatura = 0
     let creditos = 0
     let faturaStr = `Fatura ${fatura.cliente}\n`
@@ -34,7 +39,7 @@ function gerarFaturaStr(fatura, pecas) {
     }).format
 
     for (let apre of fatura.apresentacoes) {
-        const peca = pecas[apre.id]
+        const peca = getPeca(apre)
         let total = calcularTotalApresentacao(apre, peca)
 
         // créditos para próximas contratações
