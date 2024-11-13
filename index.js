@@ -2,9 +2,9 @@ const { readFileSync } = require("fs")
 const { get } = require("http")
 
 function gerarFaturaStr(fatura, pecas) {
-    function calcularTotalApresentacao(apre, peca) {
+    function calcularTotalApresentacao(apre) {
         let total = 0
-        switch (peca.tipo) {
+        switch (getPeca(apre).tipo) {
             case "tragedia":
                 total = 40000
                 if (apre.audiencia > 30) {
@@ -40,7 +40,7 @@ function gerarFaturaStr(fatura, pecas) {
 
     for (let apre of fatura.apresentacoes) {
         const peca = getPeca(apre)
-        let total = calcularTotalApresentacao(apre, peca)
+        let total = calcularTotalApresentacao(apre)
 
         // créditos para próximas contratações
         creditos += Math.max(apre.audiencia - 30, 0)
